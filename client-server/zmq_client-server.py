@@ -39,7 +39,7 @@ def client():
   
   socket.send(valido.encode())             # send message
   message = socket.recv()                 # block until response
-  print(message.decode)
+  print(message.decode())
   
   socket.send(invalido.encode())             # send message
   message = socket.recv()                 # block until response
