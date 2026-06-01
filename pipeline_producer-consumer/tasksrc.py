@@ -20,6 +20,7 @@ def producer():
   context = zmq.Context()              
   socket  = context.socket(zmq.PUSH)      # create a push socket
   socket.bind(f"tcp://*:{PRODUCER_PORT}")    # bind socket to address
+  print(f"Producer rodando na porta {PRODUCER_PORT}")
   
   num_msgs = len(mensagens)
   msg = 0
