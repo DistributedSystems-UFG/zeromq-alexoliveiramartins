@@ -17,3 +17,9 @@ PUSH connect tcp://IP_MAQUINA_C:8080
 
 Máquina C: validator
 PULL bind tcp://\*:8080
+
+```
+                 -> Extractor 1 -
+Producer 12345 --> Extractor 2 ---> Validator 8080
+                 -> Extractor 3 -
+```
