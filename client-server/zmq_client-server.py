@@ -1,6 +1,11 @@
 import multiprocessing #-
 import zmq
 from time import sleep #-
+from cpf_validator import validateCPF
+
+# cpfs para teste:
+valido = "529.982.247-25"
+invalido = "529.982.247-24"
 
 def server():
   context = zmq.Context()
@@ -10,7 +15,12 @@ def server():
   while True:
     message = socket.recv()               # wait for incoming message
     if not "STOP" in str(message):        # if not to stop...
-      reply = str(message.decode())+'*'   # append "*" to message
+      msg = str(message.decode())
+      valid = validateCPF(msg)
+      if valid:
+        reply = "CPF Valido"
+      else:
+        reply = "CPF Invalido"
       socket.send(reply.encode())         # send it away (encoded)
     else:                         
       break                               # break out of loop and end
@@ -20,8 +30,15 @@ def client():
   socket  = context.socket(zmq.REQ)       # create request socket
 
   socket.connect("tcp://localhost:12345") # block until connected
-  socket.send(b"Hello world")             # send message
+  
+  socket.send(valido.encode())             # send message
   message = socket.recv()                 # block until response
+  print(message.decode)
+  
+  socket.send(invalido.encode())             # send message
+  message = socket.recv()                 # block until response
+  print(message.decode())
+
   socket.send(b"STOP")                    # tell server to stop
   print(message.decode())                 # print result
 #-
