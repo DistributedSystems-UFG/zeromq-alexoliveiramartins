@@ -6,20 +6,33 @@ Examples extracted from Tanenbaum&amp;vanSteen (2025) to illustrate three differ
 
 ---
 
+## Client Server
+
+```
+Server = Envia CPFs
+Client = Valida CPFs
+```
+
+## Pub Sub
+
+```
+Pub = Publica Minuto a Minuto de dois jogos: Flamengo x Coritiba e PSG x Arsenal
+Sub = escolhe qual acompanhar: CHAMPIONS ou FLAMENGO
+```
+
+- Demonstracao rodando localmente
+
+<img width="727" height="186" alt="image" src="https://github.com/user-attachments/assets/d7e8fe2b-e103-4804-841b-c5112e6d3b02" />
+
 ## Producer Consumer pipeline
 
-Máquina A: producer
-PUSH bind tcp://\*:12345
-
-Máquina B: extractor
-PULL connect tcp://IP_MAQUINA_A:12345
-PUSH connect tcp://IP_MAQUINA_C:8080
-
-Máquina C: validator
-PULL bind tcp://\*:8080
-
 ```
-                 -> Extractor 1 -
-Producer 12345 --> Extractor 2 ---> Validator 8080
-                 -> Extractor 3 -
+1. Produtor - Producer = Envia mensagens contendo cpf e email
+2. Extractor - Producer/Consumer = Recebe as mensages e extrai o cpf/email delas; Depois envia pro consumer
+Obs: Podem ter varios desses extractors, mas testei so com um
+3. Validator - Consumer = Valida o email (regex) e CPF (digitos de verificacao)
 ```
+
+- Demonstracao rodando o producer consumer em 3 maquinas AWS:
+
+<img width="1080" height="757" alt="output" src="https://github.com/user-attachments/assets/3aa7c313-e8f9-4d5f-9dd9-d7206866e041" />
